@@ -26,20 +26,14 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/ejemplo', ejemploRouter);
 
-
+// user ingresa un link que ya no existe -> es redireccionado a: nuevo link / google / inicio / etc.
 app.use((req, res, next) => {
-
   var currentURL = req.originalUrl;
-
   if (currentURL === "/antiguo-documento") {
-
     return res.redirect(301, "https://google.com"); 
   }
-
-  return next();
-
+  return next(); // next() -> seguir con la ejecucion del servidor
 });
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

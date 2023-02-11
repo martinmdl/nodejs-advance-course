@@ -1,3 +1,8 @@
+// ERRORES:
+// 404: FILE NOT FOUND (link error, requiere plantilla de error)
+// 500: SYSTEM ERROR (server error, requiere plantilla de error)
+// 301: PERMANENTLY REMOVED (link obsoleto, requiere redireccion)
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');

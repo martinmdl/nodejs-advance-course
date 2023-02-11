@@ -1,3 +1,8 @@
+// ARCHIVOS
+// todos los archivos dentro de la carpeta "public"
+// son visibles para el user desde la web
+// agregando al link: nombreArchivo.ext
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -18,7 +23,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// esta linea hace a "public" visible a los users
 app.use(express.static(path.join(__dirname, 'public')));
+// esta linea hace a "files" visible a los users 
 app.use(express.static("files"));
 
 

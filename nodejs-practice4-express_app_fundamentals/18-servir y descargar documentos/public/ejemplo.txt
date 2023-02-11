@@ -1,1 +1,12 @@
 ESTE DOCUMENTO ESTA EN LA CARPETA PUBLIC
+
+para acceder aqui: localhost:3000/ejemplo.txt
+
+para acceder a style.css: localhost:3000/stylesheets/ejemplo.txt
+
+porq la ruta esta definida en "public"
+
+tanto "public" como "files" son visibles al users
+y ambas carpetas tiene el archivo "ejemplo.txt"
+entonces con el link: "localhost:3000/ejemplo.txt" abra un error
+(se resolvera por orden de llegada, es decir, en este caso se mostraria el "ejemplo.txt" de la carpeta "public")
