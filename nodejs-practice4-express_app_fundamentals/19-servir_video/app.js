@@ -1,3 +1,5 @@
+// 
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -27,25 +29,33 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+// ENVIAR UN VIDEO
+
+// OPCION 1 (VIDEO ESTATICO)
+// next = callBack
 app.use('/video-static' , (req, res, next) => { 
 
+  // __dirname -> apunta a al directorio base donde se encuentra el proyecto
+  // independientemente del directorio actual y del sistema operativo (DINAMICO)
   const fileName = __dirname + "/public/video/video.mp4";
 
+  // content type = aclaro que el archivo es de video
   res.type("video/mp4");
   res.sendFile(fileName);
+});
 
-})
-
+// OPCION 2 (STREAM)
 app.use("/video-stream",  (req, res, next) => {
 
+  // cuando la ruta no contiene "__dirname" se le dice relativa (al directorio del server)
   const fileName = "./public/video/video.mp4";
 
+  // codigo 200: confirma que tenemos el video.mp4 en el server
   res.writeHead(200, {
     "Content-Type": "video/mp4"
   });
 
   createReadStream(fileName).pipe(res);
-
 });
 
 app.use("/video-rango", async (req, res, next) => {

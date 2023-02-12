@@ -23,21 +23,31 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// SERVIR ARCHIVOS
 // esta linea hace a "public" visible a los users
 app.use(express.static(path.join(__dirname, 'public')));
 // esta linea hace a "files" visible a los users 
 app.use(express.static("files"));
 
-
+// GENERAR, MOSTRAR Y DESCARGAR ARCHIVOS
+// nuevo router en el server ("/:nombre_usuario" -> todo lo que se encuentre dsp de "/descarga")
+// se va a transformar en una variable que podemos capturar
 app.get("/descarga/:nombre_usuario", (req, res) => {
 
+  // __dirname -> apunta a al directorio base donde se encuentra el proyecto
+  // independientemente del directorio actual y del sistema operativo (DINAMICO)
   const streamEscritura = fs.createWriteStream(`${__dirname}/files/text2.txt`);
 
-
+  // escribo un documento (se almacena en el servidor)
   streamEscritura.write(
-    `Estimable ${req.params.nombre_usuario}: 
-aquí está el documento que solicitas`,
+    // :nombre_usuario = ${req.params.nombre_usuario}
+    `Estimable ${req.params.nombre_usuario}: aquí está el documento que solicitas`,
     () => {
+
+      // // .sendFile -> mostrar el archivo creado
+      // res.sendFile(`${__dirname}/files/text2.txt`);
+
+      // .download -> descargar el archivo creado
       res.download(`${__dirname}/files/text2.txt`, error => {
         if (error) {
           console.log("ERROR");
@@ -48,7 +58,6 @@ aquí está el documento que solicitas`,
       });
     }
   )
-
 });
 
 
