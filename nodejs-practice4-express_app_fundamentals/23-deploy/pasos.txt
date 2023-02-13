@@ -1,0 +1,42 @@
+1. Ya se realizaron pruebas unitarias
+
+2. No hay errores de sintaxis
+
+3. Arquitectura de buena calidad que evita el bloqueo del event loop u otros posibles errores
+
+4. Retiraste todos los "console.log()" (llamadas sincronicas que realentizan la app
+
+5. Revisar que no tenemos llamados a dependencias innecesarias
+    Se recomienda borrar "node_modules"
+    Y correr: "npm install --production"
+    (no instala las dependencias de desarrollo "devDependencies")
+
+6. Agregar compresion de archivos, cache, peticiones y trafico
+    npm i compression
+    en "app.js": const compression = require('compression');
+                 // codigo LUEGO DE "const app = express();
+                 const oneYear = 1 * 365 * 24 * 60 * 60 * 1000
+                 app.use(compression());
+                 // agregar variable "{maxAge: oneYear}" a la ruta de los archivos publicos
+                 // cantidad de tiempo que puede conservarse ese archivo
+                 app.use(express.static(path.join(__dirname, 'public'), {maxAge: oneYear}));
+
+7. verificar si la version de node en el package.json se corresponde con la version en la que queremos desplegar la pagina web
+    "engines": {
+        "node": "10.15.1"
+    },
+    // si no tengo una version definida, puedo hacer: "node -v" y copiar esa version
+    // la version de node afecta el rendimiento y la compatibilidad de la app
+
+
+HEROKU
+1. Logearse e instalar cliente de heroku desde su web
+2. Consola: heroku create (puede que pida autenticacion de usuario)
+3. Consola: git init
+4. Consola: heroku git:remote -a <nombreGenerado>
+    // ejemplo: https://nombre-app-123456.herokuapp.com/
+    // nombreGenerado = nombre-app-123456
+5. Consola: git add .
+6. Consola: git commit -m "primer commit"
+7. Consola: git push heroku master
+8. ir al dashboard de heroku para ver toda la info de la app

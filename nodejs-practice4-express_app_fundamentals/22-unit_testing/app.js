@@ -1,3 +1,7 @@
+// PRUEBAS UNITARIAS -> app robusta y libre de errores
+// framework "JEST" -> diseñado para hacer pruebas unitarios (jestjs.io/docs)
+// "supertest" -> pruebas de peticiones de HTTP
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');

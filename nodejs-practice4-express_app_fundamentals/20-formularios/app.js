@@ -1,3 +1,4 @@
+// body-parser -> me permite analizar la info que se esta enviando en el formulario
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+// cada vez que CAPTUREMOS datos por POST, nos enviara a esta direccion de plantilla
 app.post("/confirmacion", (req, res, next) => {
   res.render( "confirmacion" , {datos: req.body} );
 });

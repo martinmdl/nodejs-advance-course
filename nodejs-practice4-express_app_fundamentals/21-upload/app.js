@@ -1,3 +1,6 @@
+// IMPORTANTE
+// ver carpetas "middleware" y "classes"
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -22,12 +25,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+// ----------------------------------------------------------------------------
+// IMPORTANTE
+// middleWare -> punto intermedio entre recibir el archivo que subio el usuario
+// y guardarlo en el servidor
 const upload = require("./middleware/uploadMiddleware");
-
-
+// "photo" = nombre del input del archivos en index.pug
 app.post("/confirmacion", upload.single("photo"), (req, res, next) => {
   res.render( "confirmacion" , {datos: req.body ,  files:req.file} ); 
 });
+// ----------------------------------------------------------------------------
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

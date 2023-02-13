@@ -1,5 +1,3 @@
-// 
-
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -29,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+// -----------------------------------------------------------------------------------
 // ENVIAR UN VIDEO
 
 // OPCION 1 (VIDEO ESTATICO)
@@ -44,27 +43,28 @@ app.use('/video-static' , (req, res, next) => {
   res.sendFile(fileName);
 });
 
-// OPCION 2 (STREAM)
+// -----------------------------------------------------------------------------------
+// OPCION 2 (STREAM "RIGIDO" -> no se puede adelantar ni atrasar)
 app.use("/video-stream",  (req, res, next) => {
 
   // cuando la ruta no contiene "__dirname" se le dice relativa (al directorio del server)
   const fileName = "./public/video/video.mp4";
 
   // codigo 200: confirma que tenemos el video.mp4 en el server
-  res.writeHead(200, {
-    "Content-Type": "video/mp4"
-  });
+  res.writeHead(200, {"Content-Type": "video/mp4"});
 
   createReadStream(fileName).pipe(res);
 });
 
+// -----------------------------------------------------------------------------------
+// OPCION 3 (STREAM "ACTUALIZABLE" -> permite adelantar ni atrasar)
 app.use("/video-rango", async (req, res, next) => {
 
   const fileName = "./public/video/video.mp4";
   const { size } = await fileInfo(fileName);
   const range = req.headers.range;
 
-  if( range){
+  if(range) { // mostrar video como la OPCION 3
 
     let [start, end] = range.replace(/bytes=/, "").split("-");
     start = parseInt(start, 10);
@@ -79,7 +79,8 @@ app.use("/video-rango", async (req, res, next) => {
 
     createReadStream(fileName, { start, end }).pipe(res);
 
-  }else{
+  }else{ // mostar video como la OPCION 2 (STREAM "RIGIDO")
+
     res.writeHead(200, {
       "Content-Type": "video/mp4",
       "Content-Length": size
@@ -87,13 +88,9 @@ app.use("/video-rango", async (req, res, next) => {
   
     createReadStream(fileName).pipe(res);
   }
-
 });
 
-
-
-
-
+// -----------------------------------------------------------------------------------
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
